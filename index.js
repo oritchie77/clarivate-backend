@@ -3,6 +3,9 @@ const app = express()
 const port = 3001
 const mysql = require('promise-mysql')
 const {query} = require("express");
+const cors = require('cors');
+
+app.use(cors());
 
 app.get('/thumbnail', async (req, res) => {
 
@@ -32,13 +35,14 @@ app.post('/thumbnail', async (req,res) => {
         database: 'clarivate'
     })
     let thumbnailId = req.body.thumbnailId
-    let incrementCount = req.body.clcikCount
+    let incrementCount = req.body.clickCount
     let query = 'UPDATE `thumbnails` SET `clickCount` = "' + incrementCount + '" WHERE `id` = "' + thumbnailId + '" '
 
     connection.query(query)
     res.json({
         status: 200,
         message: 'click count updated',
+        data: req.body
     })
 })
 
